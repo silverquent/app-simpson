@@ -5,14 +5,7 @@ import axios from 'axios';
 import DisplayQuote from './components/DisplayQuote';
 
 
-const quoteFirst= 
-  {
-    quote:
-      "Facts are meaningless. You could use facts to prove anything that's even remotely true.",
-    character: 'Homer Simpson',
-    image:
-      'https://cdn.glitch.com/3c3ffadc-3406-4440-bb95-d40ec8fcde72%2FHomerSimpson.png?1497567511939',
-  }
+
   
 
 class App extends React.Component {
@@ -20,9 +13,15 @@ class App extends React.Component {
     super(props);
     this.getQuote= this.getQuote.bind(this);
     this.state = {
-      quote: quoteFirst
+      quote: null
     };
   }
+
+
+  componentDidMount() {
+    this.getQuote();
+  }
+
   getQuote() {
     // Send the request
     axios.get('https://simpsons-quotes-api.herokuapp.com/quotes?count=1')
@@ -40,7 +39,12 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <DisplayQuote quote={this.state.quote} />
+        {
+          this.state.quote
+          ?<DisplayQuote quote={this.state.quote} />
+          : <p>No data yet</p>
+        }       
+        
         <button type="button" onClick={this.getQuote}>Get Quote</button>
 
       </div>
